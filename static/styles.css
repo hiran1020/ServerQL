@@ -1,0 +1,278 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700");
+
+
+.authenticate-account {
+    background-color: white;
+    border-radius: 5px;
+    margin: 20px auto;
+    padding: 20px;
+    width: 500px
+}
+
+.authenticate-account form {
+    margin: 1.6rem
+}
+
+.authenticate-account form .otp-digit-fields-container {
+    justify-content: center
+}
+
+.authenticate-account form input[name='commit'] {
+    background: #e05443;
+    border: none;
+    color: white;
+    font-weight: 600;
+    height: 40px;
+    margin-top: 10px;
+    padding: 0 20px
+}
+
+.authenticate-account .other-option p {
+    margin: 1px
+}
+
+
+body {
+    font-family: "Montserrat", sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 24px;
+    color: #292929;
+    width: 100%;
+    overflow-x: hidden;
+    background: #f5f6fa
+}
+
+.div-reset {
+    clear: both
+}
+
+.no-select,.auth-container .custom-checkbox+label {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none
+}
+
+.auth-container {
+    padding-top: 50px;
+    height: 100vh;
+    background-image: linear-gradient(0deg, #0c2187, #2026df 72%)
+}
+
+.auth-container .logo {
+    text-align: center
+}
+
+.auth-container .logo img {
+    max-width: 100px
+}
+.auth-container .box {
+    position: relative;
+    margin: 20px auto;
+    background: #ffffff;
+    -webkit-box-shadow: 0 0 15px rgba(0,0,0,0.08);
+    box-shadow: 0 0 15px rgba(0,0,0,0.08);
+    border-radius: 4px
+}
+
+.auth-container .csv {
+    width: 500px;
+    padding: 10px;
+    position: relative;
+    margin: 20px auto;
+    background: #ffffff;
+    -webkit-box-shadow: 0 0 15px rgba(0,0,0,0.08);
+    box-shadow: 0 0 15px rgba(0,0,0,0.08);
+    border-radius: 4px
+}
+
+.auth-container .csv .csvbtn {
+    display: flex;
+    justify-content: space-between; /* Center the buttons horizontally with space around */
+    margin-top: 20px; /* Add some top margin for spacing */
+}
+
+.auth-container .csv .csvbtn button {
+    padding: 10px 20px; /* Add padding to the buttons */
+    font-size: 16px; /* Increase the font size for better readability */
+    background-color: #4CAF50; /* Green background color */
+    color: white; /* White text color */
+    border: none; /* Remove button border */
+    cursor: pointer; /* Add cursor pointer on hover */
+    transition: background-color 0.3s; /* Smooth transition for background color */
+}
+
+.auth-container .csv .csvbtn button:hover {
+    background-color: #45a049; /* Darker green background color on hover */
+}
+
+
+.auth-container .box.login {
+    max-width: 500px
+}
+
+.auth-container .box .box-header {
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    padding-top: 30px;
+    padding-bottom: 10px;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 20px;
+    font-weight: 600
+}
+
+.auth-container .box .box-body {
+    padding: 20px 30px
+}
+
+.auth-container .box .box-body input {
+    margin: 0
+}
+
+.auth-container .box .box-body .form-group {
+    margin-bottom: 20px
+}
+
+.auth-container .box .box-body .form-group input {
+    border: 1px solid #ddd;
+    box-shadow: none;
+    height: 40px;
+    padding: 0 10px;
+    font-size: 14px
+}
+
+.auth-container .box .box-body .form-group input::-webkit-input-placeholder {
+    color: #aaa
+}
+
+.auth-container .box .box-body .form-group input::-moz-placeholder {
+    color: #aaa
+}
+
+.auth-container .box .box-body .form-group input:-ms-input-placeholder {
+    color: #aaa
+}
+
+.auth-container .box .box-body .form-group input:-moz-placeholder {
+    color: #aaa
+}
+
+.auth-container .box .box-body .form-action {
+    text-align: left
+}
+
+.auth-container .box .box-body .form-action label {
+    margin-top: 6px
+}
+
+.auth-container .box .box-body .form-action .submit {
+    float: right;
+    border: none;
+    background: #e05443;
+    font-weight: 600;
+    height: 40px;
+    padding: 0 20px
+}
+
+.auth-container .box .box-body .form-action .submit.full-width {
+    width: 100%
+}
+
+.auth-container .box .box-body .form-action .submit:hover {
+    background: #c53424
+}
+
+
+
+
+
+.alert-message {
+    text-align: center;
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0
+}
+
+.alert-message .alert-box {
+    position: relative;
+    display: inline-block;
+    background-color: #1fbad6;
+    color: #ffffff;
+    margin: 0 auto;
+    padding: 0 40px 0 20px;
+    line-height: 45px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px
+}
+
+.alert-message .alert-box a.close {
+    color: #fff;
+    font-size: 25px;
+    font-weight: 600;
+    position: absolute;
+    top: 22px;
+    right: 15px;
+    line-height: 0;
+    opacity: 0.5;
+    transition: all 0.3s ease
+}
+
+.alert-message .alert-box.alert {
+    background-color: #e8352d
+}
+
+.otp-digit-fields-container {
+    display: flex;
+    margin-bottom: 1rem
+}
+
+.otp-digit-fields-container input {
+    width: 35px !important;
+    height: 40px !important;
+    line-height: 50px;
+    text-align: center;
+    font-size: 24px;
+    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-weight: 200;
+    margin: 2px
+}
+.tooltip {
+    position: relative;
+    background-color:#4CAF50;
+    top: -9%;
+}
+.tooltip::before{
+    position: absolute;
+    
+    top: 100%;
+    left: 50%;
+    border-color: #555 transparent transparent transparent;
+}
+.tooltip::after {
+    content: attr(data-tooltip);
+    visibility: hidden;
+    background-color:#4CAF50;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: -100%;
+   
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.tooltip:hover::after {
+    visibility: visible;
+    opacity: 1;
+}

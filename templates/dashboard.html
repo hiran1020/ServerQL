@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GraphQL Playground</title>
+    <style>
+        .container {
+            display: flex;
+            justify-content: space-between;
+            height: 100vh;
+        }
+
+        .left-section, .middle-section, .right-section {
+            flex: 1;
+            padding: 20px;
+            border-right: 1px solid #ccc;
+        }
+
+        .left-section {
+            flex: 1.5;
+        }
+
+        .middle-section {
+            flex: 1;
+            border-right: 1px solid #ccc;
+            overflow-y: auto;
+        }
+
+        .right-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        .form-container {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-container textarea, input {
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        .dropdown-section {
+            margin-bottom: 30px;
+            width: 100%;
+        }
+
+        .dropdown-section label {
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .dropdown-section select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        pre {
+            background-color: #f4f4f4;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center;">GraphQL Playground</h1>
+    <div class="container">
+        <!-- Left Section: Form to Send Queries -->
+        <div class="left-section">
+            <h2>Send a Query/Mutation</h2>
+            <div class="form-container">
+                <form action="/run-query" method="POST">
+                    <label for="graphql_query">GraphQL Query/Mutation:</label>
+                    <textarea id="graphql_query" name="graphql_query" rows="10" placeholder="Enter your query/mutation here"></textarea>
+
+                    <label for="variables">Variables (JSON format):</label>
+                    <textarea id="variables" name="variables" rows="5" placeholder='Enter your variables here (e.g. {"id": "123"})'></textarea>
+
+                    <button type="submit">Send Query</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Middle Section: Display Results -->
+        <div class="middle-section">
+            <h2>Results</h2>
+            {% if result %}
+            <pre>{{ result|tojson(indent=2) }}</pre>
+            {% else %}
+            <p>No results to display yet. Submit a query to see the results here.</p>
+            {% endif %}
+        </div>
+
+        <!-- Right Section: Dropdowns for Queries and Mutations -->
+        <div class="right-section">
+            <h2>Available Queries & Mutations</h2>
+
+            <!-- Queries Section -->
+            <div class="dropdown-section">
+                <label for="queryDropdown">Queries:</label>
+                <select id="queryDropdown" name="queryDropdown" onchange="updateQueryTextarea(this.value)">
+                    <option value="">-- Select a Query --</option>
+                    {% for query in queries %}
+                    <option value="{{ query }}">{{ query }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Mutations Section -->
+            <div class="dropdown-section">
+                <label for="mutationDropdown">Mutations:</label>
+                <select id="mutationDropdown" name="mutationDropdown" onchange="updateQueryTextarea(this.value)">
+                    <option value="">-- Select a Mutation --</option>
+                    {% for mutation in mutations %}
+                    <option value="{{ mutation }}">{{ mutation }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // This function inserts the selected query or mutation into the textarea for editing
+        function updateQueryTextarea(selectedQuery) {
+            document.getElementById('graphql_query').value = selectedQuery;
+        }
+    </script>
+</body>
+</html>
