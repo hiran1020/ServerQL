@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, session
 import requests
 from gql import gql, Client
 from gql.transport.requests import RequestsHTTPTransport
+import json
 
 app = Flask(__name__)
 app.secret_key = 'fleetpanda'  
@@ -66,31 +67,68 @@ def dashboard():
     # Fetch schema
     query = gql('''
     {
-        __schema {
-            queryType { name }
-            mutationType { name }
-            types {
+      __schema {
+        queryType {
+          fields {
+            name
+            description
+            args {
+              name
+              description
+              type {
                 name
                 kind
-                fields { name }
+                ofType {
+                  name
+                  kind
+                }
+              }
             }
+            type {
+              name
+              kind
+              ofType {
+                name
+                kind
+              }
+            }
+          }
         }
+        mutationType {
+          fields {
+            name
+            description
+            args {
+              name
+              description
+              type {
+                name
+                kind
+                ofType {
+                  name
+                  kind
+                }
+              }
+            }
+            type {
+              name
+              kind
+              ofType {
+                name
+                kind
+              }
+            }
+          }
+        }
+      }
     }
     ''')
-    
+
     schema_result = client.execute(query)
 
     # Parse the schema data for display
-    queries = []
-    mutations = []
-    
-    for type_info in schema_result['__schema']['types']:
-        if type_info['kind'] == 'OBJECT':
-            if type_info['fields'] is not None:
-                if type_info['name'] == 'Query':
-                    queries = [field['name'] for field in type_info['fields']]
-                elif type_info['name'] == 'Mutation':
-                    mutations = [field['name'] for field in type_info['fields']]
+    queries = [field['name'] for field in schema_result['__schema']['queryType']['fields']]
+    mutations = [field['name'] for field in schema_result['__schema']['mutationType']['fields']]
 
     return render_template('dashboard.html', queries=queries, mutations=mutations)
 
@@ -102,7 +140,7 @@ def run_query():
     server_name = session['server_name']
     token = session['token']
     graphql_query = request.form['graphql_query']
-    variables = request.form['variables']
+    variables = request.form.get('variables', '')
 
     transport = RequestsHTTPTransport(
         url=f"https://{server_name}.fleetpanda.com/graphql",
@@ -116,7 +154,13 @@ def run_query():
         # Parse the variables string into a dictionary if provided
         if variables:
             variables = json.loads(variables)
+        else:
+            variables = {}
         result = client.execute(query, variable_values=variables)
+
+        queries = session.get('queries', [])
+        mutations = session.get('mutations', [])
+
         return render_template('dashboard.html', queries=queries, mutations=mutations, result=result)
     except Exception as e:
         return render_template('dashboard.html', queries=queries, mutations=mutations, result=f"Error executing query: {e}")

@@ -12,19 +12,18 @@
         }
 
         .left-section, .middle-section, .right-section {
-            flex: 1;
             padding: 20px;
             border-right: 1px solid #ccc;
         }
 
         .left-section {
-            flex: 1.5;
+            flex: 1;
         }
 
         .middle-section {
-            flex: 1;
-            border-right: 1px solid #ccc;
+            flex: 2;
             overflow-y: auto;
+            border-right: 1px solid #ccc;
         }
 
         .right-section {
@@ -86,6 +85,21 @@
             margin-bottom: 20px;
         }
 
+        .result-view-options {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .result-view-options button {
+            padding: 10px 15px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
     </style>
 </head>
 <body>
@@ -110,11 +124,21 @@
         <!-- Middle Section: Display Results -->
         <div class="middle-section">
             <h2>Results</h2>
-            {% if result %}
-            <pre>{{ result|tojson(indent=2) }}</pre>
-            {% else %}
-            <p>No results to display yet. Submit a query to see the results here.</p>
-            {% endif %}
+            <div class="result-view-options">
+                <button onclick="showRawView()">Raw</button>
+                <button onclick="showTreeView()">Tree</button>
+                <button onclick="showObjectView()">Object</button>
+            </div>
+
+            <div id="result-view">
+                {% if result %}
+                <pre id="raw-result">{{ result|tojson(indent=2) }}</pre>
+                <div id="tree-view" style="display: none;"></div>
+                <div id="object-view" style="display: none;"></div>
+                {% else %}
+                <p>No results to display yet. Submit a query to see the results here.</p>
+                {% endif %}
+            </div>
         </div>
 
         <!-- Right Section: Dropdowns for Queries and Mutations -->
@@ -146,8 +170,44 @@
         </div>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <!-- JSON Viewer (JS) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-jsonview/1.2.3/jquery.jsonview.min.js"></script>
+
+    <!-- JSON Viewer (CSS) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-jsonview/1.2.3/jquery.jsonview.min.css" />
+
+    <div id="raw-result" style="display:none;">
+        <pre>{{ result|tojson if result is defined else '{}' }}</pre>
+    </div>
+
+    <div id="tree-view" style="display:none;"></div>
+    <div id="object-view" style="display:none;"></div>
+
     <script>
-        // This function inserts the selected query or mutation into the textarea for editing
+        function showRawView() {
+            document.getElementById('raw-result').style.display = 'block';
+            document.getElementById('tree-view').style.display = 'none';
+            document.getElementById('object-view').style.display = 'none';
+        }
+
+        function showTreeView() {
+            const jsonData = {{ result|tojson if result is defined else '{}' }};
+            $('#tree-view').JSONView(jsonData, { collapsed: false });
+            document.getElementById('tree-view').style.display = 'block';
+            document.getElementById('raw-result').style.display = 'none';
+            document.getElementById('object-view').style.display = 'none';
+        }
+
+        function showObjectView() {
+            const jsonData = {{ result|tojson if result is defined else '{}' }};
+            $('#object-view').JSONView(jsonData, { collapsed: true });
+            document.getElementById('object-view').style.display = 'block';
+            document.getElementById('raw-result').style.display = 'none';
+            document.getElementById('tree-view').style.display = 'none';
+        }
+
         function updateQueryTextarea(selectedQuery) {
             document.getElementById('graphql_query').value = selectedQuery;
         }
