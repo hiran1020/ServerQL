@@ -4,119 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GraphQL Playground</title>
-    <style>
-        .container {
-            display: flex;
-            justify-content: space-between;
-            height: 100vh;
-        }
-
-        .left-section, .middle-section, .right-section {
-            padding: 20px;
-            border-right: 1px solid #ccc;
-        }
-
-        .left-section {
-            flex: 1;
-        }
-
-        .middle-section {
-            flex: 2;
-            overflow-y: auto;
-            border-right: 1px solid #ccc;
-        }
-
-        .right-section {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-        }
-
-        .form-container {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .form-container textarea, input {
-            width: 100%;
-            margin-bottom: 10px;
-            padding: 10px;
-            border-radius: 4px;
-            border: 1px solid #ccc;
-        }
-
-        .dropdown-section {
-            margin-bottom: 30px;
-            width: 100%;
-        }
-
-        .dropdown-section label {
-            font-weight: bold;
-            margin-bottom: 10px;
-            display: block;
-        }
-
-        .dropdown-section select {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 20px;
-            border-radius: 4px;
-            border: 1px solid #ccc;
-        }
-
-        button {
-            padding: 10px 15px;
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        pre {
-            background-color: #f4f4f4;
-            padding: 15px;
-            border-radius: 4px;
-            overflow-x: auto;
-        }
-
-        h2 {
-            margin-bottom: 20px;
-        }
-
-        .result-view-options {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .result-view-options button {
-            padding: 10px 15px;
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-    </style>
+    <link rel="stylesheet" href="../static/styles.css" />
+    <!-- Include Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <!-- Include custom CSS -->
+     <link rel="stylesheet" href="../static/styles.css" />
 </head>
 <body>
-    <h1 style="text-align: center;">GraphQL Playground</h1>
+    <h1>GraphQL Playground</h1>
+
     <div class="container">
         <!-- Left Section: Form to Send Queries -->
         <div class="left-section">
             <h2>Send a Query/Mutation</h2>
             <div class="form-container">
-                <form action="/run-query" method="POST">
+                <form action="/run-query" method="POST" id="graphqlForm">
                     <label for="graphql_query">GraphQL Query/Mutation:</label>
                     <textarea id="graphql_query" name="graphql_query" rows="10" placeholder="Enter your query/mutation here"></textarea>
 
                     <label for="variables">Variables (JSON format):</label>
-                    <textarea id="variables" name="variables" rows="5" placeholder='Enter your variables here (e.g. {"id": "123"})'></textarea>
+                    <textarea id="variables" name="variables" rows="5" placeholder='Enter variables here, e.g., {"id": "123"}'></textarea>
 
-                    <button type="submit">Send Query</button>
+                    <button type="submit" onclick="saveLastQuery()">Send Query</button>
                 </form>
             </div>
         </div>
@@ -139,9 +48,14 @@
                 <p>No results to display yet. Submit a query to see the results here.</p>
                 {% endif %}
             </div>
+
+            <!-- Loading Spinner -->
+            <div class="loading-spinner" id="loadingSpinner">
+                <img src="spinner.gif" alt="Loading...">
+            </div>
         </div>
 
-        <!-- Right Section: Dropdowns for Queries and Mutations -->
+        <!-- Right Section: Queries/Mutations Dropdown -->
         <div class="right-section">
             <h2>Available Queries & Mutations</h2>
 
@@ -166,24 +80,12 @@
                     {% endfor %}
                 </select>
             </div>
-
         </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
     <!-- JSON Viewer (JS) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-jsonview/1.2.3/jquery.jsonview.min.js"></script>
-
-    <!-- JSON Viewer (CSS) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-jsonview/1.2.3/jquery.jsonview.min.css" />
-
-    <div id="raw-result" style="display:none;">
-        <pre>{{ result|tojson if result is defined else '{}' }}</pre>
-    </div>
-
-    <div id="tree-view" style="display:none;"></div>
-    <div id="object-view" style="display:none;"></div>
 
     <script>
         function showRawView() {
@@ -202,7 +104,9 @@
 
         function showObjectView() {
             const jsonData = {{ result|tojson if result is defined else '{}' }};
-            $('#object-view').JSONView(jsonData, { collapsed: true });
+            document.getElementById('object-view').innerHTML = '';
+            const view = new JSONView(jsonData, { collapsed: true });
+            document.getElementById('object-view').appendChild(view.dom);
             document.getElementById('object-view').style.display = 'block';
             document.getElementById('raw-result').style.display = 'none';
             document.getElementById('tree-view').style.display = 'none';
@@ -211,6 +115,34 @@
         function updateQueryTextarea(selectedQuery) {
             document.getElementById('graphql_query').value = selectedQuery;
         }
+
+        // Save the last query to localStorage
+        function saveLastQuery() {
+            const query = document.getElementById('graphql_query').value;
+            const variables = document.getElementById('variables').value;
+            localStorage.setItem('lastQuery', query);
+            localStorage.setItem('lastVariables', variables);
+        }
+
+        // Retrieve the last query from localStorage
+        document.addEventListener("DOMContentLoaded", function() {
+            const lastQuery = localStorage.getItem('lastQuery');
+            const lastVariables = localStorage.getItem('lastVariables');
+            if (lastQuery) {
+                document.getElementById('graphql_query').value = lastQuery;
+            }
+            if (lastVariables) {
+                document.getElementById('variables').value = lastVariables;
+            }
+        });
+
+       // Customization for JSONView
+       $(document).ready(function() {
+            // Apply styles to the expand/collapse buttons in Tree/Object view
+            $(document).on('click', '.json-toggle', function() {
+                $(this).toggleClass('plus minus');
+            });
+        });
     </script>
 </body>
 </html>

@@ -1,3 +1,7 @@
+
+
+
+//mAIN PAGE
 // Auto hide alert after 5 seconds
 setTimeout(function() {
     document.getElementById('alert-message').style.display = 'none';
@@ -48,10 +52,11 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
 
         // Simulate redirect (for example)
         window.location.href = "/dashboard"; // Change this URL as needed
-    }, 15000); // Simulating 3 seconds delay for login response
+    }, 15000); 
 });
 
 
 
 
+//DASHBOARD PAGE
 

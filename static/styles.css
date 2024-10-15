@@ -106,3 +106,223 @@ pre {
 h2 {
     margin-bottom: 20px;
 }
+
+
+
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    height: 100vh;
+}
+
+.left-section, .middle-section, .right-section {
+    padding: 20px;
+    border-right: 1px solid #ccc;
+}
+
+.left-section {
+    flex: 1;
+}
+
+.middle-section {
+    flex: 2;
+    overflow-y: auto;
+    border-right: 1px solid #ccc;
+}
+
+.right-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-container textarea, input {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+.dropdown-section {
+    margin-bottom: 30px;
+    width: 100%;
+}
+
+.dropdown-section label {
+    font-weight: bold;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.dropdown-section select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+button {
+    padding: 10px 15px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+pre {
+    background-color: #f4f4f4;
+    padding: 15px;
+    border-radius: 4px;
+    overflow-x: auto;
+}
+
+h2 {
+    margin-bottom: 20px;
+}
+
+.result-view-options {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.result-view-options button {
+    padding: 10px 15px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f4f7fa;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    text-align: center;
+    padding: 20px;
+    color: #333;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px;
+}
+
+.left-section, .right-section {
+    width: 30%;
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.middle-section {
+    width: 35%;
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-container label, .dropdown-section label {
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+textarea {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    background-color: #f4f7fa;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #f4f7fa;
+}
+
+.result-view-options {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.result-view-options button {
+    flex: 1;
+    margin: 0 5px;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.result-view-options button:hover {
+    background-color: #0056b3;
+}
+
+.loading-spinner {
+    text-align: center;
+    display: none;
+    margin-top: 20px;
+}
+
+.loading-spinner img {
+    width: 50px;
+    height: 50px;
+}
+
+/* Custom CSS for TreeView expand/collapse buttons */
+.json-toggle {
+    font-size: 18px;
+    color: #000;
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+.json-toggle.plus {
+    color: green;
+}
+
+.json-toggle.minus {
+    color: red;
+}
