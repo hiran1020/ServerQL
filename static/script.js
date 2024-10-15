@@ -52,7 +52,7 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
 
         // Simulate redirect (for example)
         window.location.href = "/dashboard"; // Change this URL as needed
-    }, 15000); 
+    }, 25000); 
 });
 
 
