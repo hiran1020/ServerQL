@@ -2,3 +2,4 @@ Flask==2.3.3
 requests==2.31.0
 gql==3.4.0
 graphql-core==3.2.3
+requests-toolbelt==0.10.1
